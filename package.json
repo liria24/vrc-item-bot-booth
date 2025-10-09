@@ -1,0 +1,28 @@
+{
+    "name": "vrc-item-bot-booth",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "preinstall": "nitro prepare",
+        "build": "nitro build",
+        "dev": "nitro dev",
+        "preview": "nitro preview",
+        "start": "node ./.output/server/index.mjs",
+        "test": "bun test"
+    },
+    "dependencies": {
+        "cheerio": "^1.1.2",
+        "discord.js": "14.23.1",
+        "nitropack": "2.12.7"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "2.2.5",
+        "@types/bun": "1.2.23",
+        "@types/node": "24.7.0",
+        "consola": "3.4.2",
+        "typescript": "5.9.3"
+    },
+    "engines": {
+        "node": ">=22.0.0"
+    }
+}
