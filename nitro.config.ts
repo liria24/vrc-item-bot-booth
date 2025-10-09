@@ -22,7 +22,7 @@ export default defineNitroConfig({
     storage: {
         kv: {
             driver: 'fs-lite',
-            base: './data/kv',
+            base: import.meta.env.KV_PATH || './data/kv',
         },
     },
 
