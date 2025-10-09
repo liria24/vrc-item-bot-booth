@@ -127,6 +127,16 @@ export const getKnownItemIds = async (): Promise<Set<string>> => {
     }
 }
 
+export const hasKnownItemKey = async (): Promise<boolean> => {
+    try {
+        const storage = useStorage('kv')
+        return await storage.hasItem(KNOWN_ITEMS_KEY)
+    } catch (error) {
+        logger.error({ error }, 'Failed to check known item key existence')
+        return false
+    }
+}
+
 /**
  * 既知の商品IDを保存
  */

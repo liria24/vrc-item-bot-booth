@@ -23,6 +23,16 @@ export default defineNitroPlugin(async (nitroApp) => {
     }
 
     try {
+        try {
+            const knownItemsReady = await hasKnownItemKey()
+            if (!knownItemsReady) {
+                logger.info('Known items key not found; running initial prepare step')
+                await prepareKnownItems()
+            }
+        } catch (prepError) {
+            logger.error({ error: prepError }, 'Failed to prepare known items before starting bot')
+        }
+
         const controller = await startDiscordBot({
             token: discord.token,
             clientId: discord.clientId,
