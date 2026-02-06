@@ -1,7 +1,7 @@
 export default defineNitroConfig({
-    compatibilityDate: '2025-09-29',
+    compatibilityDate: 'latest',
 
-    preset: 'node-server',
+    preset: 'bun',
 
     runtimeConfig: {
         discord: {
@@ -24,15 +24,6 @@ export default defineNitroConfig({
             driver: 'fs-lite',
             base: import.meta.env.KV_PATH || './data/kv',
         },
-    },
-
-    imports: {
-        imports: [
-            {
-                name: 'z',
-                from: 'zod',
-            },
-        ],
     },
 
     scheduledTasks: {
