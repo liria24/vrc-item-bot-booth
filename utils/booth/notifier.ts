@@ -70,7 +70,7 @@ const notifyNewItemsForChannel = async (channelId: string, items: BoothItem[]): 
         }
 
         logger.success(
-            `Successfully notified ${items.length} items in ${batches.length} message(s)`
+            `Successfully notified ${items.length} items in ${batches.length} message(s)`,
         )
     } catch (error) {
         logger.error({ error, channelId }, 'Failed to notify new items')
@@ -79,7 +79,7 @@ const notifyNewItemsForChannel = async (channelId: string, items: BoothItem[]): 
 
 const notifyNewItemsSummaryForChannel = async (
     channelId: string,
-    items: BoothItem[]
+    items: BoothItem[],
 ): Promise<void> => {
     if (items.length === 0) return
 
@@ -118,7 +118,7 @@ const notifyNewItemsSummaryForChannel = async (
 }
 
 const broadcastToRegisteredChannels = async (
-    sender: (channelId: string) => Promise<void>
+    sender: (channelId: string) => Promise<void>,
 ): Promise<void> => {
     const channelIds = await getRegisteredChannelIds()
 

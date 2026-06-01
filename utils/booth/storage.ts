@@ -1,4 +1,5 @@
 import { createConsola } from 'consola'
+import { useStorage } from 'nitro/storage'
 
 const logger = createConsola({ defaults: { tag: 'booth-storage' } })
 
@@ -63,7 +64,7 @@ export const getNotificationChannelForGuild = async (guildId: string): Promise<s
 
 export const registerNotificationChannel = async (
     guildId: string,
-    channelId: string
+    channelId: string,
 ): Promise<RegisterNotificationChannelResult> => {
     if (!guildId || !channelId) {
         throw new Error('guildId and channelId are required')
@@ -89,7 +90,7 @@ export const registerNotificationChannel = async (
 
 export const unregisterNotificationChannel = async (
     guildId: string,
-    channelId: string
+    channelId: string,
 ): Promise<UnregisterNotificationChannelResult> => {
     if (!guildId || !channelId) {
         throw new Error('guildId and channelId are required')
@@ -106,7 +107,7 @@ export const unregisterNotificationChannel = async (
         return { success: false, reason: 'mismatch' }
     }
 
-    delete map[guildId]
+    Reflect.deleteProperty(map, guildId)
     await writeNotificationChannelMap(map)
 
     logger.info({ guildId, channelId }, 'Unregistered notification channel')

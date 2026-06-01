@@ -12,6 +12,7 @@ import {
     Routes,
     type Snowflake,
 } from 'discord.js'
+import { runTask } from 'nitro/task'
 
 const logger = createConsola({ defaults: { tag: 'discord' } })
 
@@ -85,7 +86,7 @@ const registerSlashCommands = async (options: DiscordBotOptions): Promise<void> 
     const rest = new REST({ version: '10' }).setToken(token)
 
     const slashPayload: RESTPostAPIChatInputApplicationCommandsJSONBody[] = commands.map(
-        (command) => command.data.toJSON()
+        (command) => command.data.toJSON(),
     )
 
     const route = guildId
@@ -95,7 +96,7 @@ const registerSlashCommands = async (options: DiscordBotOptions): Promise<void> 
     logger.log(
         `Registering ${slashPayload.length} slash command(s) on ${
             guildId ? `guild ${guildId}` : 'global scope'
-        }`
+        }`,
     )
 
     await rest.put(route, { body: slashPayload })
@@ -103,7 +104,7 @@ const registerSlashCommands = async (options: DiscordBotOptions): Promise<void> 
 }
 
 const createInteractionHandler = (
-    commandMap: Collection<string, DiscordCommand>
+    commandMap: Collection<string, DiscordCommand>,
 ): ((interaction: ChatInputCommandInteraction) => Promise<void>) => {
     return async (interaction: ChatInputCommandInteraction) => {
         const command = commandMap.get(interaction.commandName)
@@ -126,7 +127,7 @@ const createInteractionHandler = (
                     guildId: interaction.guildId,
                     channelId: interaction.channelId,
                 },
-                'Slash command invoked'
+                'Slash command invoked',
             )
             await command.execute(interaction)
         } catch (error) {
@@ -148,7 +149,7 @@ const createInteractionHandler = (
 }
 
 export const startDiscordBot = async (
-    options: DiscordBotOptions
+    options: DiscordBotOptions,
 ): Promise<DiscordBotController> => {
     const { token, commands } = options
 

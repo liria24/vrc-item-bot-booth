@@ -29,8 +29,8 @@ Most of these are provided by MCP servers via Context7.
 
 - Nitro auto-imports files in the utils directory.
 - Please make sure the following is in English.
-    - `console.log`
-    - `console.error`
-    - `console.warn`
+  - `console.log`
+  - `console.error`
+  - `console.warn`
 - If you find any potential bugs, please fix them accordingly and suggest them.
 - To use the latest packages, use `bun add` instead of adding them directly to package.json.

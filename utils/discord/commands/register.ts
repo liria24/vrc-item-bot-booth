@@ -61,7 +61,7 @@ export const registerCommand = {
                         alreadyRegistered: result.alreadyRegistered ?? false,
                         userId: interaction.user.id,
                     },
-                    'Registered notification channel'
+                    'Registered notification channel',
                 )
             } else {
                 logger.warn(
@@ -71,7 +71,7 @@ export const registerCommand = {
                         conflictChannelId: result.conflictChannelId,
                         userId: interaction.user.id,
                     },
-                    'Failed to register notification channel due to conflict'
+                    'Failed to register notification channel due to conflict',
                 )
             }
 

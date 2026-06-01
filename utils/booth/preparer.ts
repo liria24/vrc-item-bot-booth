@@ -14,7 +14,7 @@ export interface PrepareKnownItemsResult {
 }
 
 export const prepareKnownItems = async (
-    options: PrepareKnownItemsOptions = {}
+    options: PrepareKnownItemsOptions = {},
 ): Promise<PrepareKnownItemsResult> => {
     const { limit = 60 } = options
 

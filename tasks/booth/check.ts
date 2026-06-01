@@ -1,8 +1,9 @@
 import { createConsola } from 'consola'
+import { defineTask } from 'nitro/task'
 
 const logger = createConsola({ defaults: { tag: 'booth:check' } })
 
-export default defineTask({
+export default defineTask<string>({
     meta: {
         name: 'booth:check',
         description: 'Check BOOTH for new VRChat items and notify Discord',

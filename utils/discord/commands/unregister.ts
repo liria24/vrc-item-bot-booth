@@ -9,17 +9,11 @@ import {
 const logger = createConsola({ defaults: { tag: 'unregister-command' } })
 
 const buildResponse = (result: UnregisterNotificationChannelResult): string => {
-    if (result.success) {
-        return 'このチャンネルの通知登録を解除しました。'
-    }
+    if (result.success) return 'このチャンネルの通知登録を解除しました。'
 
-    if (result.reason === 'not-found') {
-        return 'このサーバーには通知が登録されていません。'
-    }
+    if (result.reason === 'not-found') return 'このサーバーには通知が登録されていません。'
 
-    if (result.reason === 'mismatch') {
-        return 'このチャンネルは通知に登録されていません。'
-    }
+    if (result.reason === 'mismatch') return 'このチャンネルは通知に登録されていません。'
 
     return 'チャンネルの登録解除に失敗しました。'
 }
@@ -56,12 +50,12 @@ export const unregisterCommand = {
             if (result.success) {
                 logger.success(
                     { guildId, channelId, userId: interaction.user.id },
-                    'Unregistered notification channel'
+                    'Unregistered notification channel',
                 )
             } else {
                 logger.warn(
                     { guildId, channelId, reason: result.reason, userId: interaction.user.id },
-                    'Failed to unregister notification channel'
+                    'Failed to unregister notification channel',
                 )
             }
 

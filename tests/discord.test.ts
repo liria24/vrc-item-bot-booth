@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'bun:test'
+
 import { Client, Events, GatewayIntentBits } from 'discord.js'
 
 const testDiscordBotLogin = async (token: string): Promise<boolean> => {
@@ -13,26 +14,26 @@ const testDiscordBotLogin = async (token: string): Promise<boolean> => {
 
         // 10秒のタイムアウトを設定
         const timeout = setTimeout(() => {
-            client.destroy()
+            void client.destroy()
             resolve(false)
         }, 10000)
 
         client.once(Events.ClientReady, () => {
             clearTimeout(timeout)
-            client.destroy()
+            void client.destroy()
             resolve(true)
         })
 
         client.on('error', () => {
             clearTimeout(timeout)
-            client.destroy()
+            void client.destroy()
             resolve(false)
         })
 
         // ログインを試行
-        client.login(token).catch(() => {
+        void client.login(token).catch(() => {
             clearTimeout(timeout)
-            client.destroy()
+            void client.destroy()
             resolve(false)
         })
     })

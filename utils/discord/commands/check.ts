@@ -5,6 +5,7 @@ import {
     MessageFlags,
     SlashCommandBuilder,
 } from 'discord.js'
+import { runTask } from 'nitro/task'
 
 const logger = createConsola({ defaults: { tag: 'check-booth-command' } })
 
@@ -12,7 +13,7 @@ export const checkBoothCommand = {
     data: new SlashCommandBuilder()
         .setName('check')
         .setDescription(
-            'BOOTH の新着 VRChat アイテムを今すぐチェックします'
+            'BOOTH の新着 VRChat アイテムを今すぐチェックします',
         ) as SlashCommandBuilder,
     async execute(interaction: ChatInputCommandInteraction) {
         await interaction.deferReply({ flags: MessageFlags.Ephemeral })
@@ -21,7 +22,7 @@ export const checkBoothCommand = {
             logger.info(`Running booth:check task from command by user ${interaction.user.tag}`)
 
             // タスクを実行
-            const { result } = await runTask('booth:check')
+            const { result } = await runTask<string>('booth:check')
 
             const embed = new EmbedBuilder()
                 .setTitle('✅ チェック完了')
@@ -29,7 +30,7 @@ export const checkBoothCommand = {
                 .setColor(0x43b581)
                 .addFields({
                     name: '結果',
-                    value: result?.toString() || 'チェック完了',
+                    value: result || 'チェック完了',
                     inline: false,
                 })
                 .setTimestamp()

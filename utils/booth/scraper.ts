@@ -49,9 +49,14 @@ const extractTotalItemCount = ($: CheerioAPI): number | null => {
  */
 export const defaultFetchFn = async (url: string): Promise<string | null> => {
     try {
-        return await $fetch<string>(url)
+        const response = await fetch(url)
+        if (!response.ok) {
+            throw new Error(`Request failed with status ${response.status}`)
+        }
+
+        return await response.text()
     } catch (error) {
-        logger.error(`Failed to fetch ${url}: ${error.message}`)
+        logger.error({ error }, `Failed to fetch ${url}`)
         return null
     }
 }
@@ -60,7 +65,7 @@ export const defaultFetchFn = async (url: string): Promise<string | null> => {
  * BOOTHのVRChatタグ付き商品ページをスクレイピング
  */
 export const scrapeBoothVRChatItems = async (
-    options: ScrapeOptions = {}
+    options: ScrapeOptions = {},
 ): Promise<BoothScrapeResult> => {
     const { maxPages = 1, itemsPerPage = 60, fetchFn = defaultFetchFn } = options
     const allItems: BoothItem[] = []
@@ -97,7 +102,7 @@ export const scrapeBoothVRChatItems = async (
 
                     // タイトルを取得
                     const $titleLink = $card.find(
-                        '.item-card__title-anchor--multiline, .item-card__title-anchor'
+                        '.item-card__title-anchor--multiline, .item-card__title-anchor',
                     )
                     const title = $titleLink.text().trim()
                     if (!title || title.length < 3) return

@@ -1,16 +1,19 @@
 import { createConsola } from 'consola'
+import { definePlugin } from 'nitro'
+
+import { getDiscordRuntimeConfig } from '../utils/discord/runtime-config'
 
 const logger = createConsola({ defaults: { tag: 'discord' } })
 
-export default defineNitroPlugin(async (nitroApp) => {
+const startBot = async (): Promise<DiscordBotController | undefined> => {
     const existingController = getDiscordBotController()
 
     if (existingController?.isReady()) {
         logger.info('Discord bot is already running. Reusing existing instance.')
-        return
+        return undefined
     }
 
-    const { discord } = useRuntimeConfig()
+    const discord = getDiscordRuntimeConfig()
 
     if (!discord.token) {
         logger.warn('DISCORD_TOKEN is not set. Discord bot will not be started.')
@@ -41,12 +44,21 @@ export default defineNitroPlugin(async (nitroApp) => {
         })
 
         setDiscordBotController(controller)
-
-        nitroApp.hooks.hook('close', async () => {
-            await controller.shutdown()
-            clearDiscordBotController()
-        })
+        return controller
     } catch (error) {
         logger.error({ error }, 'Failed to start Discord bot')
+        return undefined
     }
+}
+
+export default definePlugin((nitroApp) => {
+    const controllerPromise = startBot()
+
+    nitroApp.hooks.hook('close', async () => {
+        const controller = await controllerPromise
+        if (!controller) return
+
+        await controller.shutdown()
+        clearDiscordBotController()
+    })
 })
