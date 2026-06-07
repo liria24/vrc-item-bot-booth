@@ -1,4 +1,4 @@
 {
-    "extends": "nitro/tsconfig",
+    "extends": "./.nitro/types/tsconfig.json",
     "include": [".nitro/types/**/*.d.ts", "**/*.ts"]
 }
